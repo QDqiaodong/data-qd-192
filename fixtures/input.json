@@ -1,0 +1,4 @@
+{
+  "molecule":{"id":"ring","topology":"circular","sequence":"AATTCCGG"},
+  "enzymes":[{"id":"demo-palindrome","motif":"GAATTC","cut_after":1},{"id":"demo-second","motif":"CCGG","cut_after":2}]
+}

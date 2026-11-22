@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools==80.9.0", "wheel==0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "data-qd-192"
+version = "0.1.0"
+description = "线性与环状序列切分"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+sequence-digest = "sequence_digest.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
