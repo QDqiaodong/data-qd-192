@@ -1,0 +1,4 @@
+{
+  "molecule": {"id": "ring", "topology": "circular", "sequence": "AATTCCGG"},
+  "enzymes": [{"id": "demo-second", "motif": "CCGG", "cut_after": 2}]
+}

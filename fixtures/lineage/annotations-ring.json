@@ -1,0 +1,10 @@
+{
+  "molecule_id": "ring",
+  "topology": "circular",
+  "length": 8,
+  "sequence_sha256": "a36cc28b00c4c893876b02730f01b9c551df11032730422d2d93af478e76c1df",
+  "origin": 7,
+  "labels": [
+    {"id": "label-alpha", "start": 6, "length": 5}
+  ]
+}
