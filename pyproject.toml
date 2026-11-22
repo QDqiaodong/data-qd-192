@@ -15,6 +15,7 @@ sequence-digest-lineage = "sequence_digest.lineage_cli:main"
 sequence-digest-holdout = "sequence_digest.holdout_cli:main"
 sequence-digest-ledger = "sequence_digest.ledger_cli:main"
 sequence-digest-staff = "sequence_digest.staff_cli:main"
+sequence-digest-sla = "sequence_digest.sla_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
