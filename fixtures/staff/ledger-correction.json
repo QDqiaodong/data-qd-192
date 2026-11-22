@@ -1,0 +1,12 @@
+{
+  "records": [
+    {
+      "submission_id": "B",
+      "revision": 2,
+      "op": "put",
+      "course_id": "Red",
+      "day": "2026-11-11",
+      "summary": {"bases": 120, "fragment_bases": 120, "fragments": 9, "unique_cuts": 0, "recognition_hits": 0}
+    }
+  ]
+}

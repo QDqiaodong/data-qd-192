@@ -1,0 +1,13 @@
+{
+  "start_day": "2026-11-10",
+  "end_day": "2026-11-11",
+  "shifts": [
+    {"shift_id": "F", "day": "2026-11-10", "courses": ["Blue", "Red"], "capacity": 6},
+    {"shift_id": "B0", "day": "2026-11-10", "courses": ["Blue"], "capacity": 6},
+    {"shift_id": "B1", "day": "2026-11-10", "courses": ["Blue"], "capacity": 6}
+  ],
+  "bookings": [
+    {"shift_id": "F", "course_id": "Blue", "day": "2026-11-10", "points": 6, "locked_points": 3},
+    {"shift_id": "B1", "course_id": "Blue", "day": "2026-11-10", "points": 3, "locked_points": 0}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "records": [
+    {
+      "submission_id": "A",
+      "revision": 1,
+      "op": "put",
+      "course_id": "Blue",
+      "day": "2026-11-10",
+      "summary": {"bases": 120, "fragment_bases": 120, "fragments": 9, "unique_cuts": 0, "recognition_hits": 0}
+    },
+    {
+      "submission_id": "B",
+      "revision": 1,
+      "op": "put",
+      "course_id": "Blue",
+      "day": "2026-11-10",
+      "summary": {"bases": 120, "fragment_bases": 120, "fragments": 2, "unique_cuts": 0, "recognition_hits": 0}
+    }
+  ]
+}

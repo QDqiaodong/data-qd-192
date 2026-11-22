@@ -82,6 +82,20 @@ sequence-digest-ledger changes --store run/ledger.json --after 1 --limit 1
 
 每次有效接入只产生一条相对接入前台账的净勘误；同桶轧差、跨桶换档保留分档差值。仪表盘以 `snapshot` 的 `head` 为起点，用 `changes` 的 `deltas` 逐页追增量。单写者、原子替换：写者中途终止时新版本、桶表与勘误要么全部可见，要么都不可见。
 
+## 复核产能排班
+
+新增 `sequence-digest-staff` 入口：把台账快照里各课程、各结算日剩余的复核点排给助教队的产能班次。已确认的部分原样保留、不能收回；可改的部分先尽量消化需求，再尽量少动旧草案。只消费快照 stdout JSON 与花名册（数字、日期、业务编号），不读完整报告或切分规则，运行仅用标准库。字段、第一/第二目标与资源边界见 [排班契约](docs/staff.md)。
+
+```sh
+# 从台账导出快照后直接排班
+sequence-digest-ledger snapshot --store run/ledger.json > run/snapshot.json
+sequence-digest-staff --snapshot run/snapshot.json --roster fixtures/staff/roster.json --output run/plan.json
+# 128 副本 ×1000 点数的受限进程容量验收
+python3 -P tools/staff_capacity.py --directory run/staff-capacity
+```
+
+排的是可拆的整数点产能，不是逐份派单。第一目标最大化覆盖点数，第二目标在不降覆盖下最大化原配对上保留的未确认点数；计划绑定传入快照的 `head`。结果原子新建，输入/确认冲突或目标已存在（含符号链接）退出2且不留部分文件。
+
 ## 测试
 
 不安装包也可直接用标准库运行（`-P` 避免当前目录同名模块干扰）：
@@ -90,7 +104,7 @@ sequence-digest-ledger changes --store run/ledger.json --after 1 --limit 1
 PYTHONPATH=src python3 -P -m unittest discover -s tests -v
 ```
 
-当前88项测试覆盖 v1 既有报告与错误行为、线性首尾边界、环状整圈标注、错版哈希拒绝、R1/R2 封存-搬迁-新进程重发、回执篡改与归档损坏、写入失败后原 ID 重试、盲测编排的验收场景、独立暴力枚举对照、非法输入与两组压测，以及人工复核台账的净变动、版本规则、撤销/恢复、从空态与旧快照的增量对齐和写者中断复现。
+当前105项测试覆盖 v1 既有报告与错误行为、线性首尾边界、环状整圈标注、错版哈希拒绝、R1/R2 封存-搬迁-新进程重发、回执篡改与归档损坏、写入失败后原 ID 重试、盲测编排的验收场景、独立暴力枚举对照、非法输入与两组压测、人工复核台账的净变动、版本规则、撤销/恢复、从空态与旧快照的增量对齐和写者中断复现，以及复核产能排班的更正后重排、确认超额不挪用、独立穷举核对两个目标、128 副本受限进程容量验收和输入重排/输出不覆盖。
 
 ## 当前能力与后续集成
 

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "head": 2,
+  "buckets": [
+    {
+      "course_id": "Blue",
+      "day": "2026-11-10",
+      "counts": {"single": 0, "light": 0, "heavy": 1},
+      "points": 6
+    },
+    {
+      "course_id": "Red",
+      "day": "2026-11-11",
+      "counts": {"single": 0, "light": 0, "heavy": 1},
+      "points": 6
+    }
+  ]
+}
