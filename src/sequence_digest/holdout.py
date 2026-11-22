@@ -23,7 +23,7 @@ class HoldoutError(ValueError):
     """盲测编排的业务/结构错误，CLI 统一以退出码 2 报告。"""
 
 
-def _tier_index(fragments):
+def tier_index(fragments):
     if fragments == 1:
         return 0
     if fragments <= 7:
@@ -31,8 +31,12 @@ def _tier_index(fragments):
     return 2
 
 
-def _validate_summary(summary):
-    """摘要接入检查；只核对数字之间的契约，不回溯具体切分过程。"""
+def validate_summary(summary):
+    """摘要接入检查；只核对数字之间的契约，不回溯具体切分过程。
+
+    返回工作量档索引：``fragments`` 为 1、2–7、8 以上分别对应
+    ``single``/``light``/``heavy``。盲测编排与人工复核台账共用这一口径。
+    """
     fields(summary, SUMMARY_FIELDS)
     bases = integer(summary['bases'], 1, MAX_BASES)
     fragment_bases = integer(summary['fragment_bases'], 1, MAX_BASES)
@@ -41,7 +45,7 @@ def _validate_summary(summary):
     fragments = integer(summary['fragments'], 1, bases)
     unique_cuts = integer(summary['unique_cuts'], 0, bases + 1)
     integer(summary['recognition_hits'], unique_cuts, MAX_RECOGNITION_HITS)
-    return _tier_index(fragments)
+    return tier_index(fragments)
 
 
 def validate_batch(data):
@@ -58,7 +62,7 @@ def validate_batch(data):
         submission_id = ident(item['submission_id'])
         if submission_id in tier_of:
             raise HoldoutError(f'duplicate submission_id: {submission_id}')
-        tier_of[submission_id] = _validate_summary(item['summary'])
+        tier_of[submission_id] = validate_summary(item['summary'])
         ids.append(submission_id)
 
     links = array(data['links'], 0, MAX_LINKS)
