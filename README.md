@@ -52,6 +52,23 @@ sequence-digest-lineage export --archive run/archive \
 
 同一 `release_id` 重复封存内容相同则返回同一回执，内容不同则退出2且不动旧发布；回执哈希错误、归档缺损或导出目标已存在（含符号链接）均退出2且不留部分文件。
 
+## 阅卷盲测集编排
+
+新增 `sequence-digest-holdout` 入口：课程组把 v1 报告压成纯数字摘要后，用它固定一份可盲测的组集合，并说明每组是必进、可调还是不可进。只消费摘要、提交编号与关联声明，不读取源字符串、片段内容或切分规则。字段、精确计数方法与复杂度见 [盲测编排契约](docs/holdout.md)。
+
+```sh
+sequence-digest-holdout --source fixtures/holdout/acceptance.json --output run/plan.json
+# 或无需安装：
+PYTHONPATH=src python3 -P -m sequence_digest.holdout_cli \
+  --source BATCH.json --output PLAN.json
+```
+
+结果原子新建并拒绝覆盖已有目标（含符号链接）；输入非法或超过组数上限退出2。已知无解也是成功结果（`feasible_count` 为 0，状态为空）。两组 20 秒预算压测可独立复现：
+
+```sh
+python3 -P tools/holdout_bench.py --directory run/bench
+```
+
 ## 测试
 
 不安装包也可直接用标准库运行（`-P` 避免当前目录同名模块干扰）：
@@ -60,7 +77,7 @@ sequence-digest-lineage export --archive run/archive \
 PYTHONPATH=src python3 -P -m unittest discover -s tests -v
 ```
 
-当前40项测试覆盖 v1 既有报告与错误行为、线性首尾边界、环状整圈标注、错版哈希拒绝、R1/R2 封存-搬迁-新进程重发、回执篡改与归档损坏、写入失败后原 ID 重试等。
+当前60项测试覆盖 v1 既有报告与错误行为、线性首尾边界、环状整圈标注、错版哈希拒绝、R1/R2 封存-搬迁-新进程重发、回执篡改与归档损坏、写入失败后原 ID 重试，以及盲测编排的验收场景、独立暴力枚举对照、非法输入与两组压测。
 
 ## 当前能力与后续集成
 
